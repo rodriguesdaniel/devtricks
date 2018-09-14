@@ -1,0 +1,34 @@
+1) in your dashboard, go to settings -> general and make sure
+
+a) wordpress directory -> http://mydomain.com/wp
+
+b) site address -> http://mydomain.com
+
+2) move your index.php from subdirectory to the root (MOVE, don't just copy)
+
+3) edit your index.php to read
+
+    /** Loads the WordPress Environment and Template */
+    require('./wp/wp-blog-header.php');
+where "wp" is your subdirectory
+
+4) delete any .htaccess file in the subdirectory
+
+5) add this to your .htaccess in the root
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+Under this setup, your wordpress installation will be located in /wp/ directory. Visitors will visit your site using http://mydomain.com.
+
+If you want to have a good read-up on everything so you know exactly what you're doing, read this https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory
+
+CREDITS: Stewartside
+https://stackoverflow.com/users/2889988/stewartside
